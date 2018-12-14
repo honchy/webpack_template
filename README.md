@@ -38,7 +38,34 @@
 
 ```
 
-## babel 库配置
+## 多页应用模型
 
+### pages 目录结构约定
+约定 pages 目录为页面目录。凡是含有`main.js`的目录都将被看成一个页面。所以一个多页的模型可以这样来设计。
 
+```
+.
+├── components
+└── pages
+    ├── home
+    │   ├── index.html
+    │   └── main.js
+    └── main.js
+```
+
+而单页应用则可以简化为
+
+```
+├── components
+└── pages
+    ├── home
+    │   └── index.js
+    └── main.js
+```
+
+### html 模板约定
+
+采用`html-webpack-plugin`来自动插入`assets`资源。
+
+如果页面下没有`index.html`，将寻找默认的模板`{Project_Root}/index.html`，如果还找不到，将使用`html-webpack-plugin`提供的默认模板。
 
