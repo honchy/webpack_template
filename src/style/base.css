@@ -1,10 +1,9 @@
-html, body {
-    margin: 0;
-    padding: 0;
-}
-body {
-    background-color: #fcfcfc;
-}
+@import-normalize;
+
 div, p {
-    color: #333;
+    color: #33345;
+    font-size: 3.25vw;
+}
+.flex {
+    display: flex;
 }
