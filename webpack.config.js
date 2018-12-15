@@ -42,7 +42,8 @@ module.exports = {
     devtool: 'cheap-source-map',
     devServer: {
         contentBase: output_dir,
-        port: PORT
+        port: PORT,
+        hot: true
     },
     resolve: {
         alias: {
@@ -58,8 +59,28 @@ module.exports = {
                 parallel: true,
                 sourceMap: true // set to true if you want JS source maps
             }),
-            new OptimizeCSSAssetsPlugin({})
-        ]
+            new OptimizeCSSAssetsPlugin()
+        ],
+        splitChunks: {
+            chunks: 'all',
+            minSize: 0,
+            maxSize: 0,
+            minChunks: 2,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            automaticNameDelimiter: '~',
+            name: true,
+            cacheGroups: {
+                default: false,
+                common: {
+                    name: 'common',
+                    test: /\.js$/,
+                    minChunks: 2,
+                    priority: 1,
+                    reuseExistingChunk: true
+                }
+            }
+        }
     },
     plugins: [].concat(
         new CleanWebpackPlugin(output_dir),
