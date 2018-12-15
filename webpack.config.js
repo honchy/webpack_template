@@ -1,7 +1,9 @@
 const path = require('path');
 const fs = require('fs');
 const App = require('./app_config');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -9,8 +11,6 @@ const mode = process.env.NODE_ENV === 'development' ? 'development' : 'productio
 const isProd = mode === 'production';
 
 const output_dir = path.join(__dirname, 'dist');
-const base_dir = path.join(__dirname, 'src');
-const pages_dir = path.join(base_dir, 'pages');
 
 const PORT = 8000;
 
@@ -28,6 +28,14 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+                    { loader: 'css-loader', options: { importLoaders: 1 } },
+                    'postcss-loader'
+                ]
             }
         ]
     },
@@ -36,22 +44,41 @@ module.exports = {
         contentBase: output_dir,
         port: PORT
     },
+    resolve: {
+        alias: {
+            '@common': path.join(__dirname, 'src', 'common'),
+            '@components': path.join(__dirname, 'src', 'components'),
+            '@style': path.join(__dirname, 'src', 'style')
+        }
+    },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true // set to true if you want JS source maps
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
+    },
     plugins: [].concat(
         new CleanWebpackPlugin(output_dir),
-        App.html.map(
-            item => {
-                let cfg = {
-                    filename: item.html_out,
-                    chunks: [item.name],
-                    minify: isProd
-                };
+        App.html.map(item => {
+            let cfg = {
+                filename: item.html_out,
+                chunks: [item.name],
+                minify: isProd
+            };
 
-                if(item.html) {
-                    cfg.template = item.html;
-                }
-                
-                return new HtmlWebpackPlugin(cfg);
+            if (item.html) {
+                cfg.template = item.html;
             }
-        )
+
+            return new HtmlWebpackPlugin(cfg);
+        }),
+        new MiniCssExtractPlugin({
+            filename: isProd ? '[name]@[hash].css' : '[name].css',
+            chunkFilename: isProd ? '[id]@[hash].css' : '[id].css'
+        })
     )
 };

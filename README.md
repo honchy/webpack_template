@@ -69,3 +69,6 @@
 
 如果页面下没有`index.html`，将寻找默认的模板`{Project_Root}/index.html`，如果还找不到，将使用`html-webpack-plugin`提供的默认模板。
 
+# common chunk 处理
+
+

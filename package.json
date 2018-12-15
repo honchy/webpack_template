@@ -4,7 +4,7 @@
   "description": "常用 webpack 配置模板",
   "main": "index.js",
   "scripts": {
-    "start": "npx webpack-dev-server",
+    "start": "NODE_ENV=development npx webpack-dev-server",
     "build": "npx webpack",
     "build:dev": "NODE_ENV=development npx webpack"
   },
@@ -25,7 +25,13 @@
     "@babel/preset-env": "^7.2.0",
     "babel-loader": "^8.0.4",
     "clean-webpack-plugin": "^1.0.0",
+    "css-loader": "^2.0.1",
     "html-webpack-plugin": "^4.0.0-beta.3",
+    "mini-css-extract-plugin": "^0.5.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
