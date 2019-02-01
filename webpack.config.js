@@ -31,10 +31,19 @@ module.exports = {
             },
             {
                 test: /\.css$/,
+                include: path.join(__dirname, 'src'),
                 use: [
                     isProd ? MiniCssExtractPlugin.loader : 'style-loader',
                     { loader: 'css-loader', options: { importLoaders: 1 } },
                     'postcss-loader'
+                ]
+            },
+            {
+                test: /\.css$/,
+                include: /node_modules/,
+                use: [
+                    isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+                    { loader: 'css-loader', options: { importLoaders: 1 } }
                 ]
             }
         ]
