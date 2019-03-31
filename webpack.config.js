@@ -14,6 +14,8 @@ const output_dir = path.join(__dirname, 'dist');
 
 const PORT = 8000;
 
+console.log('App.entry', App.entry);
+
 module.exports = {
     mode: mode,
     entry: App.entry,

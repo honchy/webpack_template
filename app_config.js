@@ -30,10 +30,16 @@ function makeupHtml() {
     let files = getEntryFiles(pages_dir);
 
     return files.map(item => {
+        let namepath = path.dirname(path.relative(base_dir, item.js));
+        
+        let entryName = namepath.split(path.sep).join(path.posix.sep);
+        
+        let htmloutpath = path.join(output_dir, namepath, "index.html");
+
         let cfg = {
-            name: path.relative(base_dir, item.js).replace(/^(\.\/)|(\.js)$/, ''),
+            name: entryName,
             js: item.js,
-            html_out: item.js.replace(/\/src/, '/dist').replace(/main\.js$/, 'index.html')
+            html_out: htmloutpath
         };
 
         if(item.html || def_html_template) {
