@@ -7,7 +7,8 @@
                 "targets": {
                     "browsers": ["> 0.25%", "not dead", "ie 9", "ios 8", "android 4.4"]
                 },
-                "modules": "commonjs"
+                "modules": "commonjs",
+                "corejs": "2"
             }
         ]
     ],
@@ -20,6 +21,9 @@
                 "regenerator": true,
                 "useESModules": false
             }
+        ],
+        [
+            "@babel/plugin-syntax-dynamic-import"
         ]
     ]
 }
